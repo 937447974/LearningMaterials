@@ -12,6 +12,8 @@ http://rogerdudler.github.io/git-guide/index.zh.html
 
 http://marklodato.github.io/visual-git-guide/index-zh-cn.html
 
+git个性化log：http://www.tuicool.com/articles/Ab6Nru
+
 ##私人博客文章
 
 [廖雪峰](http://www.liaoxuefeng.com)
