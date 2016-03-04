@@ -24,3 +24,7 @@ git个性化log：http://www.tuicool.com/articles/Ab6Nru
 
 [ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa):函数响应式编程（FRP）框架。
 
+1. [ReactiveCocoa入门教程：第一部分](http://www.cocoachina.com/ios/20150123/10994.html)。
+2. [ReactiveCocoa入门教程：第二部分](http://www.cocoachina.com/ios/20160211/15020.html)。
+
+
