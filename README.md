@@ -2,7 +2,7 @@
 
 学习资料
 
-##git学习
+##1 git学习
 
 [git 官网](https://developer.github.com)
 
@@ -14,17 +14,20 @@ http://marklodato.github.io/visual-git-guide/index-zh-cn.html
 
 git个性化log：http://www.tuicool.com/articles/Ab6Nru
 
-##私人博客文章
+##2 私人博客文章
 
 [廖雪峰](http://www.liaoxuefeng.com)
 
 [王巍](http://onevcat.com)
 
-##第三方库
+##3 第三方库
 
-[ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa):函数响应式编程（FRP）框架。
+###3.1 [ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa):函数响应式编程（FRP）框架。
 
 1. [ReactiveCocoa入门教程：第一部分](http://www.cocoachina.com/ios/20150123/10994.html)。
 2. [ReactiveCocoa入门教程：第二部分](http://www.cocoachina.com/ios/20160211/15020.html)。
 
 
+###3.2 [UITableView-FDTemplateLayoutCell](https://github.com/forkingdog/UITableView-FDTemplateLayoutCell): 利用AutoLayout自动计算UITableViewCell高度。
+
+[优化UITableViewCell高度计算的那些事 附源码](http://www.cocoachina.com/ios/20150518/11854.html)
