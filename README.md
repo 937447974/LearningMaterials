@@ -17,5 +17,10 @@ git个性化log：http://www.tuicool.com/articles/Ab6Nru
 ##私人博客文章
 
 [廖雪峰](http://www.liaoxuefeng.com)
+
 [王巍](http://onevcat.com)
+
+##第三方库
+
+[ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa):函数响应式编程（FRP）框架。
 
