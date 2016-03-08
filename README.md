@@ -33,3 +33,5 @@ git个性化log：http://www.tuicool.com/articles/Ab6Nru
 [优化UITableViewCell高度计算的那些事 附源码](http://www.cocoachina.com/ios/20150518/11854.html)
 
 ###3.3 [WYPopoverController](https://github.com/937447974/WYPopoverController):弹出框。
+
+###3.4 [iCarousel](https://github.com/nicklockwood/iConsole): 幻灯片切换照片。
