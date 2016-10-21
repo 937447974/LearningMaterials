@@ -35,3 +35,7 @@ git个性化log：http://www.tuicool.com/articles/Ab6Nru
 ###3.3 [WYPopoverController](https://github.com/937447974/WYPopoverController):弹出框。
 
 ###3.4 [iCarousel](https://github.com/nicklockwood/iConsole): 幻灯片切换照片。
+
+##4 其它
+
+[iOS开发经验总结](http://www.jianshu.com/p/d333cf6ae4b0)
