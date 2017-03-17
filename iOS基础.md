@@ -26,12 +26,15 @@ sizeClass autoLayout layoutSubviews
 5. [Grand Central Dispatch (GCD) Reference](http://blog.csdn.net/y550918116j/article/details/52385222)
 6. [GCD(Grand Central Dispatch)教程](http://www.dreamingwish.com/article/gcdgrand-central-dispatch-jiao-cheng.html)
 7. [iOS同步锁](http://blog.csdn.net/y550918116j/article/details/62430893)
+8. [iOS多线程编程详情（GCD、NSThread、NSOperation）](http://lib.csdn.net/article/ios/57715)
 
 #4 底层
 
+属性[Objective-C对象属性设置](http://blog.csdn.net/y550918116j/article/details/48968955)
+
 Block[objc 中的 block](http://blog.ibireme.com/2013/11/27/objc-block/)
 
-属性[Objective-C对象属性设置](http://blog.csdn.net/y550918116j/article/details/48968955)
+[网络Socket编程及应用实例](http://lib.csdn.net/article/embeddeddevelopment/60828)
 
 runtime[【OC刨根问底】-Runtime简单粗暴理解](http://www.jianshu.com/p/f900de4a1495)
 
@@ -40,6 +43,10 @@ runloop[深入理解RunLoop](http://blog.ibireme.com/2015/05/18/runloop/)
 项目优化
 [如何优化 App 的启动时间](http://www.dreamingwish.com/articlelist/tag/block)
 [项目瘦身](https://raw.githubusercontent.com/937447974/Blog/master/Resources/2017031401.png)
+
+[iOS--KVO的实现原理与具体应用](http://www.cnblogs.com/azuo/p/5442319.html)
+[【原】iOS下KVO使用过程中的陷阱](http://www.cnblogs.com/wengzilin/p/4346775.html)
+[KVC 与 KVO 理解](https://magicalboy.com/kvc_and_kvo/)
 
 #5 架构
 
