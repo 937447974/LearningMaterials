@@ -49,8 +49,6 @@ runloop[深入理解RunLoop](http://blog.ibireme.com/2015/05/18/runloop/)
 [如何优化 App 的启动时间](http://www.dreamingwish.com/articlelist/tag/block)
 [项目瘦身](https://raw.githubusercontent.com/937447974/Blog/master/Resources/2017031401.png)
 
-
-
 #5 架构
 
 1. [23设计模式之目录](http://blog.csdn.net/y550918116j/article/details/50072719)
