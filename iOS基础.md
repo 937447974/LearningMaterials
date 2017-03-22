@@ -49,9 +49,7 @@ runloop[深入理解RunLoop](http://blog.ibireme.com/2015/05/18/runloop/)
 [如何优化 App 的启动时间](http://www.dreamingwish.com/articlelist/tag/block)
 [项目瘦身](https://raw.githubusercontent.com/937447974/Blog/master/Resources/2017031401.png)
 
-[iOS--KVO的实现原理与具体应用](http://www.cnblogs.com/azuo/p/5442319.html)
-[【原】iOS下KVO使用过程中的陷阱](http://www.cnblogs.com/wengzilin/p/4346775.html)
-[KVC 与 KVO 理解](https://magicalboy.com/kvc_and_kvo/)
+
 
 #5 架构
 
