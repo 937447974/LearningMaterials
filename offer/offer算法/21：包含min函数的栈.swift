@@ -15,11 +15,12 @@ class Stack {
     
     private var array = Array<Int>()
     private var minArray = Array<Int>()
-    private var minItem = 0
     
     func push(_ k: Int) {
-        if self.array.count == 0 || minItem > k {
-            minItem = k
+        var minItem = k
+        if self.array.count != 0  {
+            minItem = self.array.last!
+            minItem = minItem < k ? minItem : k
         }
         self.array.append(k)
         self.minArray.append(minItem)
@@ -34,9 +35,6 @@ class Stack {
             return nil
         }
         self.minArray.removeLast()
-        if self.minArray.count != 0 {
-            minItem = self.minArray.last!
-        }
         return self.array.removeLast()
     }
     
