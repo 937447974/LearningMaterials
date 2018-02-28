@@ -1,4 +1,4 @@
-# Java面试资源
+[] Java面试资源
 分享编程资源，一起用好资源，用好的资源 **QQ(50872495)**
 
 > 这里汇总整理了网络上的Java面试题，持续更新
@@ -703,3 +703,13 @@
 
 ## 日期
 * 计算两个日期之间的差距
+
+&#160;
+
+----------
+
+# Appendix
+
+## Related Documentation
+
+[Java面试资源](https://github.com/tangyouhua/program-resource/blob/master/program-interview/java-baidu-200.md)
