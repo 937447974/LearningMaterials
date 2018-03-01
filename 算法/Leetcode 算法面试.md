@@ -731,6 +731,7 @@ You can assume that you can always reach the last index.
 ```Java
 class Solution {
     public int jump(int[] nums) {
+        if (nums == null || nums.length <= 1) return 0;
         int curMax = nums[0];
         int nextMax = curMax;
         int curStep = 1;
@@ -746,25 +747,386 @@ class Solution {
 }
 ```
 
-## 3.6 例6-射击气球 (LeetCode 452) 
- 
-# 4 递归与回溯搜索（6）
+## 3.6 例6-射击气球 ([452. Minimum Number of Arrows to Burst Balloons](https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/description/)) 
 
-2.  例1-求子集 (LeetCode 78)
-3.  例2-求子集2 (LeetCode 90)
-4.  例3-组合数之和(LeetCode 40)
-5.  例4-生成括号(LeetCode 22)
-6.  例5-N皇后(LeetCode 51)
-7.  例6-火柴棍摆正方形(LeetCode 473)
- 
-# 5 二分查找与分制算法（6）
+There are a number of spherical balloons spread in two-dimensional space. For each balloon, provided input is the start and end coordinates of the horizontal diameter. Since it's horizontal, y-coordinates don't matter and hence the x-coordinates of start and end of the diameter suffice. Start is always smaller than end. There will be at most 104 balloons.
 
-2.  例1-插入位置(LeetCode 35)
-3.  例2-区间查找(LeetCode 34)
-4.  例3-旋转数组查找(LeetCode 33)
-6.  例4-K个排序链表的合并(LeetCode 23)
-7.  例5-逆序数计算 (LeetCode 315)
-8.  例6-不同的括号方法 (LeetCode 241)
+An arrow can be shot up exactly vertically from different points along the x-axis. A balloon with xstart and xend bursts by an arrow shot at x if xstart ≤ x ≤ xend. There is no limit to the number of arrows that can be shot. An arrow once shot keeps travelling up infinitely. The problem is to find the minimum number of arrows that must be shot to burst all balloons.
+
+**Example:**
+
+```
+Input:
+[[10,16], [2,8], [1,6], [7,12]]
+
+Output:
+2
+
+Explanation:
+One way is to shoot one arrow for example at x = 6 (bursting the balloons [2,8] and [1,6]) and another arrow at x = 11 (bursting the other two balloons).
+```
+	
+```Java
+class Solution {
+    public int findMinArrowShots(int[][] points) {
+        if (points.length == 0) {
+            return 0;
+        }
+        Arrays.sort(points, (a, b) -> a[1] - b[1]);
+        int arrowPos = points[0][1];
+        int arrowCnt = 1;
+        for (int i = 1; i < points.length; i++) {
+            if (arrowPos >= points[i][0]) {
+                continue;
+            }
+            arrowCnt++;
+            arrowPos = points[i][1];
+        }
+        return arrowCnt;
+    }
+}
+```
+ 
+# 4 递归与回溯搜索
+
+## 4.1 例1-求子集 ([78. Subsets](https://leetcode.com/problems/subsets/description/))
+
+Given a set of distinct integers, nums, return all possible subsets (the power set).
+
+**Note:** The solution set must not contain duplicate subsets.
+
+For example,
+
+If nums = [1,2,3], a solution is:
+
+```
+[
+  [3],
+  [1],
+  [2],
+  [1,2,3],
+  [1,3],
+  [2,3],
+  [1,2],
+  []
+]
+```
+
+```Java
+class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> list = new ArrayList<>();
+        Arrays.sort(nums);
+        backtrack(list, new ArrayList<>(), nums, 0);
+        return list;
+    }
+
+    void backtrack(List<List<Integer>> list, List<Integer> tempList, int[] nums, int start) {
+        list.add(new ArrayList<>(tempList));
+        for (int i = start; i < nums.length; i++) {
+            tempList.add(nums[i]);
+            backtrack(list, tempList, nums, i + 1);
+            tempList.remove(tempList.size() - 1);
+        }
+    }
+}
+```
+
+## 4.2 例2-求子集2 ([90. Subsets II](https://leetcode.com/problems/subsets-ii/description/))
+
+Given a collection of integers that might contain duplicates, nums, return all possible subsets (the power set).
+
+**Note:** The solution set must not contain duplicate subsets.
+
+For example,
+If nums = [1,2,2], a solution is:
+
+```
+[
+  [2],
+  [1],
+  [1,2,2],
+  [2,2],
+  [1,2],
+  []
+]
+```
+
+```Java
+class Solution {
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(nums);
+        this.backtrack(result, new ArrayList<Integer>(), nums, 0);
+        return result;
+    }
+
+    void backtrack(List<List<Integer>> list, ArrayList<Integer> tempList, int[] nums, int start) {
+        list.add(new ArrayList<Integer>(tempList));
+        for (int i = start; i < nums.length; i++) {
+            if (i > 0 && i != start && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            tempList.add(nums[i]);
+            this.backtrack(list, tempList, nums, i + 1);
+            tempList.remove(tempList.size() - 1);
+        }
+    }
+}
+```
+
+## 4.3 例3-组合数之和([40. Combination Sum II](https://leetcode.com/problems/combination-sum-ii/description/))
+
+Given a collection of candidate numbers (C) and a target number (T), find all unique combinations in C where the candidate numbers sums to T.
+
+Each number in C may only be used once in the combination.
+
+**Note:**
+
+* All numbers (including target) will be positive integers.
+* The solution set must not contain duplicate combinations.
+
+For example, given candidate set [10, 1, 2, 7, 6, 1, 5] and target 8, 
+
+A solution set is: 
+
+```
+[
+  [1, 7],
+  [1, 2, 5],
+  [2, 6],
+  [1, 1, 6]
+]
+```
+	
+```Java
+class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(candidates);
+        this.backtrack(result, new ArrayList<Integer>(), candidates, target, 0);
+        return result;
+    }
+
+    void backtrack(List<List<Integer>> list, ArrayList<Integer> tempList, int[] candidates, int target, int start) {
+        if (target < 0) return;
+        if (target == 0) {
+            list.add(new ArrayList<Integer>(tempList));
+            return;
+        }
+        for (int i = start; i < candidates.length; i++) {
+            if (i > 0 && i != start && candidates[i] == candidates[i - 1]) {
+                continue;
+            }
+            tempList.add(candidates[i]);
+            target -= candidates[i];
+            this.backtrack(list, tempList, candidates, target, i + 1);
+            target += candidates[i];
+            tempList.remove(tempList.size() - 1);
+        }
+    }
+}
+```
+
+## 4.4 例4-生成括号([22. Generate Parentheses](https://leetcode.com/problems/generate-parentheses/description/))
+
+Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+
+For example, given n = 3, a solution set is:
+
+```
+[
+  "((()))",
+  "(()())",
+  "(())()",
+  "()(())",
+  "()()()"
+]
+```
+
+```Java
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> ans = new ArrayList();
+        if (n <= 0) {
+            ans.add("");
+        } else {
+            for (int i = 0; i < n; i++) {
+                for (String left : generateParenthesis(i)) {
+                    for (String right : generateParenthesis(n - 1 - i)) {
+                        ans.add(left + "(" + right + ")");
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+}
+```
+
+## 4.5 例5-N皇后 ([51. N-Queens](https://leetcode.com/problems/n-queens/description/))
+
+The n-queens puzzle is the problem of placing n queens on an n×n chessboard such that no two queens attack each other.
+
+![](https://raw.githubusercontent.com/937447974/Blog/master/Resources/2018030101.png)
+
+Given an integer n, return all distinct solutions to the n-queens puzzle.
+
+Each solution contains a distinct board configuration of the n-queens' placement, where 'Q' and '.' both indicate a queen and an empty space respectively.
+
+For example,There exist two distinct solutions to the 4-queens puzzle:
+
+```
+[
+ [".Q..",  // Solution 1
+  "...Q",
+  "Q...",
+  "..Q."],
+
+ ["..Q.",  // Solution 2
+  "Q...",
+  "...Q",
+  ".Q.."]
+]
+```
+	
+```Java
+class Solution {
+    public List<List<String>> solveNQueens(int n) {
+        char[][] board = new char[n][n];
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                board[i][j] = '.';
+        List<List<String>> asc = new ArrayList<List<String>>();
+        this.dfs(asc, board, 0);
+        return asc;
+    }
+
+    private void dfs(List<List<String>> asc, char[][] board, int i) {
+        if (i == board.length) {
+            asc.add(this.construct(board));
+            return;
+        }
+        for (int j = 0; j < board.length; j++) {
+            if (this.validate(board, i, j)) {
+                board[i][j] = 'Q';
+                dfs(asc, board, i + 1);
+                board[i][j] = '.';
+            }
+        }
+    }
+
+    private boolean validate(char[][] board, int i, int j) {
+        int i1 = i - 1, j1 = j - 1;
+        while (i1 >= 0 && j1 >= 0) {
+            if (board[i1][j1] == 'Q') return false;
+            i1--;
+            j1--;
+        }
+        int i2 = i - 1;
+        while (i2 >= 0) {
+            if (board[i2][j] == 'Q') return false;
+            i2--;
+        }
+        int i3 = i - 1, j3 = j + 1;
+        while (i3 >= 0 && j3 < board.length) {
+            if (board[i3][j3] == 'Q') return false;
+            i3--;
+            j3++;
+        }
+        return true;
+    }
+    
+    private List<String> construct(char[][] board) {
+        List<String> res = new ArrayList<>();
+        for (int i = 0; i < board.length; i++) {
+            res.add(new String(board[i]));
+        }
+        return res;
+    }
+
+}
+```
+
+## 4.6 例6-火柴棍摆正方形 ([473. Matchsticks to Square](https://leetcode.com/problems/matchsticks-to-square/description/))
+
+Remember the story of Little Match Girl? By now, you know exactly what matchsticks the little match girl has, please find out a way you can make one square by using up all those matchsticks. You should not break any stick, but you can link them up, and each matchstick must be used exactly one time.
+
+Your input will be several matchsticks the girl has, represented with their stick length. Your output will either be true or false, to represent whether you could make one square using all the matchsticks the little match girl has.
+
+**Example 1:**
+
+```
+Input: [1,1,2,2,2]
+Output: true
+
+Explanation: You can form a square with length 2, one side of the square came two sticks with length 1.
+```
+
+**Example 2:**
+
+```
+Input: [3,3,3,3,4]
+Output: false
+
+Explanation: You cannot find a way to form a square with all the matchsticks.
+```
+
+**Note:**
+
+1. The length sum of the given matchsticks is in the range of 0 to 10^9.
+2. The length of the given matchstick array will not exceed 15.
+
+```Java
+class Solution {
+    public boolean makesquare(int[] nums) {
+        if (nums == null || nums.length < 4) return false;
+        int sum = 0;
+        for (int i : nums) sum += i;
+        if (sum % 4 != 0) return false;
+        Arrays.sort(nums);
+        int target = sum / 4;
+        if (nums[nums.length - 1] > target) return false;
+        return this.dfs(target, nums, 0, nums.length - 1) == 1;
+    }
+
+    int dfs(int target, int[] nums, int cur, int index) {
+        if (index == -1) return 1;
+        int result = 0;
+        for (int i = index; i >= 0; i--) {
+            int total = cur + nums[i];
+            if (total <= target) {
+                this.exchange(nums, i, index);
+                if (total == target) {
+                    result = this.dfs(target, nums, 0, index - 1);
+                } else if (total < target) {
+                    result = this.dfs(target, nums, total, index - 1);
+                }
+                this.exchange(nums, i, index);
+                if (result == 1) return 1;
+                else if (result == -1) return 0;
+            }
+        }
+        return -1;
+    }
+
+    void exchange(int[] nums, int x, int y) {
+        if (x == y) return;
+        int temp = nums[x];
+        nums[x] = nums[y];
+        nums[y] = temp;
+    }
+
+}
+```
+# 5 二分查找与分制算法
+
+## 5.1 例1-插入位置(LeetCode 35)
+## 5.2 例2-区间查找(LeetCode 34)
+## 5.3 例3-旋转数组查找(LeetCode 33)
+## 5.4 例4-K个排序链表的合并(LeetCode 23)
+## 5.5 例5-逆序数计算 (LeetCode 315)
+## 5.6 例6-不同的括号方法 (LeetCode 241)
  
 # 6 二叉树（6）
 
