@@ -1162,6 +1162,9 @@ class Solution {
 ```
 
 ## 5.2 例2-区间查找(LeetCode 34)
+
+
+
 ## 5.3 例3-旋转数组查找(LeetCode 33)
 ## 5.4 例4-K个排序链表的合并(LeetCode 23)
 ## 5.5 例5-逆序数计算 (LeetCode 315)
