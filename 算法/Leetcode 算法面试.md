@@ -1163,22 +1163,464 @@ class Solution {
 
 ## 5.2 例2-区间查找(LeetCode 34)
 
+Given an array of integers sorted in ascending order, find the starting and ending position of a given target value.
 
+Your algorithm's runtime complexity must be in the order of O(log n).
 
-## 5.3 例3-旋转数组查找(LeetCode 33)
-## 5.4 例4-K个排序链表的合并(LeetCode 23)
+If the target is not found in the array, return [-1, -1].
+
+For example,
+
+```
+Given [5, 7, 7, 8, 8, 10] and target value 8,
+return [3, 4].
+```
+	
+```Java
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        int[] asc = new int[]{-1, -1};
+        if (nums == null) return asc;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == target) {
+                asc[0] = i;
+                while (i < nums.length && nums[i] == target) {
+                    asc[1] = i++;
+                }
+                return asc;
+            }
+        }
+        return asc;
+    }
+}
+```
+
+## 5.3 例3-旋转数组查找 ([33. Search in Rotated Sorted Array](https://leetcode.com/problems/search-in-rotated-sorted-array/description/))
+
+Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
+
+(i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
+
+You are given a target value to search. If found in the array return its index, otherwise return -1.
+
+You may assume no duplicate exists in the array.
+
+```
+class Solution {
+    public int search(int[] nums, int target) {
+        if (nums == null || nums.length == 0) return -1;
+        int left = 0;
+        int right = nums.length - 1;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (nums[mid] == target) return mid;
+            if (nums[mid] < nums[right]) {
+                if (nums[mid] < target && target <= nums[right]) left = mid + 1;
+                else right = mid - 1;
+            } else {
+                if (nums[left] <= target && target < nums[mid]) right = mid - 1;
+                else left = mid + 1;
+            }
+        }
+        return -1;
+    }
+}
+```
+
+## 5.4 例4-K个排序链表的合并([20. Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists/description/))
+
+Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
+
+```Java
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        if (lists == null || lists.length == 0) return null;
+        return this.mergeKLists(lists, 0, lists.length - 1);
+    }
+
+    private ListNode mergeKLists(ListNode[] lists, int start, int end) {
+        if (start == end) return lists[start];
+        int mid = (start + end) / 2;
+        ListNode left = mergeKLists(lists, start, mid);
+        ListNode right = mergeKLists(lists, mid + 1, end);
+        return this.merge2Lists(left, right);
+    }
+
+    private ListNode merge2Lists(ListNode l1, ListNode l2) {
+        ListNode dummy = new ListNode(0);
+        ListNode prev = dummy;
+        while (l1 != null && l2 != null) {
+            if (l1.val < l2.val) {
+                prev.next = l1;
+                l1 = l1.next;
+            } else {
+                prev.next = l2;
+                l2 = l2.next;
+            }
+            prev = prev.next;
+        }
+        prev.next = l1 != null ? l1 : l2;
+        return dummy.next;
+    }
+}
+```
+
 ## 5.5 例5-逆序数计算 (LeetCode 315)
+
+You are given an integer array nums and you have to return a new counts array. The counts array has the property where counts[i] is the number of smaller elements to the right of nums[i].
+
+**Example:**
+
+```
+Given nums = [5, 2, 6, 1]
+
+To the right of 5 there are 2 smaller elements (2 and 1).
+To the right of 2 there is only 1 smaller element (1).
+To the right of 6 there is 1 smaller element (1).
+To the right of 1 there is 0 smaller element.
+Return the array [2, 1, 1, 0].
+```
+	
+```Java
+class Solution {
+    public List<Integer> countSmaller(int[] nums) {
+        if (nums == null || nums.length == 0) return new ArrayList<>();
+        int min = nums[0];
+        for (int value : nums) {
+            if (min > value) min = value;
+        }
+        int max = min;
+        for (int i = 0; i < nums.length; i++) {
+            int value = nums[i] - min + 1;
+            nums[i] = value;
+            if (max < value) max = value;
+        }
+        int[] BITree = new int[max + 1];
+        BITree[0] = 0;
+        int[] countArr = new int[nums.length];
+        for (int i = nums.length - 1; i >= 0; i--) {
+            countArr[i] = this.getSum(nums[i] - 1, BITree);
+            update(nums[i], BITree);
+        }
+        List<Integer> result = new ArrayList<>();
+        for (int value : countArr) {
+            result.add(value);
+        }
+        return result;
+    }
+
+    private int getSum(int value, int[] BITree) {
+        int sum = 0;
+        while (value > 0) {
+            sum += BITree[value];
+            value -= (value & -value);
+        }
+        return sum;
+    }
+
+    private void update(int value, int[] BITree) {
+        while (value <= BITree.length - 1) {
+            BITree[value] += 1;
+            value += (value & -value);
+        }
+    }
+}
+```
+
 ## 5.6 例6-不同的括号方法 (LeetCode 241)
  
-# 6 二叉树（6）
+# 6 二叉树
 
-2.  例1-路径之和2 (LeetCode 113)
-3.  例2-最近的公共祖先 (LeetCode 236)
-4.  例3-二叉树转链表(LeetCode 114)
-7.  例4-侧面观察二叉树 (LeetCode 199)
-8.  例5-根据前序与中序遍历顺序构造二叉树(LeetCode 105)
-9.  例6-根据后续与中序遍历顺序构造二叉树(LeetCode 106)
- 
+## 6.1 例1-路径之和2 ([113. Path Sum II](https://leetcode.com/problems/path-sum-ii/description/))
+
+Given a binary tree and a sum, find all root-to-leaf paths where each path's sum equals the given sum.
+
+For example:
+
+Given the below binary tree and sum = 22,
+
+```
+              5
+             / \
+            4   8
+           /   / \
+          11  13  4
+         /  \    / \
+        7    2  5   1
+```
+
+return
+
+```
+[
+   [5,4,11,2],
+   [5,8,4,5]
+]
+```
+	
+```Java
+class Solution {
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        List<List<Integer>> asc = new ArrayList<>();
+        this.pathSum(asc, new ArrayList<>(), root, sum);
+        return asc;
+    }
+
+    private void pathSum(List<List<Integer>> asc, List<Integer> path, TreeNode root, int sum) {
+        if (root == null) return;
+        path.add(root.val);
+        sum -= root.val;
+        if (root.left == null && root.right == null) {
+            if (sum == 0) asc.add(new ArrayList(path));
+        } else {
+            this.pathSum(asc, path, root.left, sum);
+            this.pathSum(asc, path, root.right, sum);
+        }
+        path.remove(path.size() - 1);
+    }
+}
+```
+
+## 6.2 例2-最近的公共祖先 ([236. Lowest Common Ancestor of a Binary Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/description/))
+
+Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
+
+According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes v and w as the lowest node in T that has both v and w as descendants (where we allow a node to be a descendant of itself).”
+
+```
+        _______3______
+       /              \
+    ___5__          ___1__
+   /      \        /      \
+   6      _2       0       8
+         /  \
+         7   4
+```
+
+For example, the lowest common ancestor (LCA) of nodes 5 and 1 is 3. Another example is LCA of nodes 5 and 4 is 5, since a node can be a descendant of itself according to the LCA definition.
+
+```Java
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (this.contains(p, q)) return p;
+        else if (this.contains(q, p)) return q;
+        return this.helper(root, p, q, new boolean[2]);
+    }
+
+    private TreeNode helper(TreeNode node, TreeNode p, TreeNode q, boolean[] founds) {
+        if (node == null) return null;
+        if (node == p) {
+            founds[0] = true;
+            return null;
+        } else if (node == q) {
+            founds[1] = true;
+            return null;
+        }
+        TreeNode result = this.helper(node.left, p, q, founds);
+        if (result != null) return result; // p、q 在左树
+        else if (founds[0]) return this.contains(node.right, q) ? node : null; // p 在左树
+        else if (founds[1]) return this.contains(node.right, p) ? node : null; // q 在左树
+        return this.helper(node.right, p, q, founds);
+    }
+
+    private boolean contains(TreeNode node, TreeNode search) {
+        if (node == null) return false;
+        if (node == search) return true;
+        return this.contains(node.left, search) || this.contains(node.right, search);
+    }
+}
+```
+
+## 6.3 例3-二叉树转链表([114. Flatten Binary Tree to Linked List](https://leetcode.com/problems/flatten-binary-tree-to-linked-list/description/))
+
+Given a binary tree, flatten it to a linked list in-place.
+
+For example,
+
+Given
+
+```
+         1
+        / \
+       2   5
+      / \   \
+     3   4   6
+```
+
+The flattened tree should look like:
+
+```
+   1
+    \
+     2
+      \
+       3
+        \
+         4
+          \
+           5
+            \
+             6
+```
+	
+```Java
+class Solution {
+    private TreeNode prev = null;
+
+    public void flatten(TreeNode root) {
+        if (root == null) return;
+        this.flatten(root.right);
+        this.flatten(root.left);
+        root.right = this.prev;
+        root.left = null;
+        this.prev = root;
+    }
+}
+```
+
+## 6.4 例4-侧面观察二叉树 (LeetCode 199)
+
+Given a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.
+
+For example:
+
+Given the following binary tree,
+
+```
+   1            <---
+ /   \
+2     3         <---
+ \     \
+  5     4       <---
+```
+
+You should return [1, 3, 4].
+
+```Java
+class Solution {
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> asc = new ArrayList<>();
+        this.rightSideView(asc, root, 0);
+        return asc;
+    }
+
+    void rightSideView(List<Integer> list, TreeNode root, int i) {
+        if (root == null) return;
+        if (list.size() == i) list.add(root.val);
+        this.rightSideView(list, root.right, ++i);
+        this.rightSideView(list, root.left, i);
+    }
+}
+```
+
+## 6.5 例5-根据前序与中序遍历顺序构造二叉树 ([105. Construct Binary Tree from Preorder and Inorder Traversal](https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/description/))
+
+Given preorder and inorder traversal of a tree, construct the binary tree.
+
+**Note:**
+
+You may assume that duplicates do not exist in the tree.
+
+For example, given
+
+```
+preorder = [3,9,20,15,7]
+inorder = [9,3,15,20,7]
+```
+
+Return the following binary tree:
+
+```
+    3
+   / \
+  9  20
+    /  \
+   15   7
+```
+	
+```Java
+class Solution {
+    private int preIndex = 0;
+    private int inIndex = 0;
+
+    public TreeNode buildTree(int[] preOrder, int[] inOrder) {
+        this.preIndex = 0;
+        this.inIndex = 0;
+        return buildTree(preOrder, inOrder, Integer.MAX_VALUE);
+    }
+
+    private TreeNode buildTree(int[] preOrder, int[] inOrder, int target) {
+        //pre: [root][left][right];
+        //in: [left][root][right];
+        //target is the root
+        if (this.inIndex >= inOrder.length || inOrder[this.inIndex] == target) {
+            return null;
+        }
+        TreeNode root = new TreeNode(preOrder[this.preIndex]);
+        //preorder, advance the index by 1 sice we already finish the root;
+        this.preIndex++;
+        root.left = this.buildTree(preOrder, inOrder, root.val);
+        //after finishing left subtree, we can advance the index by 1
+        this.inIndex++;
+        root.right = this.buildTree(preOrder, inOrder, target);
+        return root;
+    }
+}
+```
+
+## 6.6 例6-根据后续与中序遍历顺序构造二叉树 ([106. Construct Binary Tree from Inorder and Postorder Traversal](https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/description/))
+
+Given inorder and postorder traversal of a tree, construct the binary tree.
+
+Note:
+You may assume that duplicates do not exist in the tree.
+
+For example, given
+
+```
+inorder = [9,3,15,20,7]
+postorder = [9,15,7,20,3]
+```
+
+Return the following binary tree:
+
+```
+    3
+   / \
+  9  20
+    /  \
+   15   7
+```
+
+```Java
+class Solution {
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        return buildTree(inorder, inorder.length - 1, 0, postorder, postorder.length - 1);
+    }
+
+    private TreeNode buildTree(int[] inorder, int inStart, int inEnd, int[] postorder, int postStart) {
+        if (postStart < 0 || inStart < inEnd)
+            return null;
+
+        //The last element in postorder is the root.
+        TreeNode root = new TreeNode(postorder[postStart]);
+
+        //find the index of the root from inorder. Iterating from the end.
+        int rIndex = inStart;
+        for (int i = inStart; i >= inEnd; i--) {
+            if (inorder[i] == postorder[postStart]) {
+                rIndex = i;
+                break;
+            }
+        }
+        //build right and left subtrees. Again, scanning from the end to find the sections.
+        root.right = buildTree(inorder, inStart, rIndex + 1, postorder, postStart - 1);
+        root.left = buildTree(inorder, rIndex - 1, inEnd, postorder, postStart - 1 - (inStart - rIndex));
+        return root;
+    }
+}
+```
+
 # 7 图与二叉查找树（5）
 
 3.  例1-课程安排 (LeetCode 207e)
